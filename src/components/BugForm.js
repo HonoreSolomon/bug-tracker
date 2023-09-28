@@ -51,7 +51,7 @@ function BugForm({ onSubmit }) {
           />
         </FormField>
         <FormField label='Status'>
-          <TextInput
+          <Select
             name='status'
             options={['Open', 'In Progress', 'Closed']}
             value={bugData.status}
