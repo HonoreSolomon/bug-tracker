@@ -1,14 +1,15 @@
 import React from 'react';
-import { Box, Heading, Paragraph } from 'grommet';
+import { Grommet, Heading, Main } from 'grommet';
 
 function Homepage() {
   return (
-    <Box padding='medium'>
-      <Heading level='2'>
-        Welcome To Your Bug Tracker and Project Manager
-      </Heading>
-      <Paragraph></Paragraph>
-    </Box>
+    <Grommet>
+      <Main padding='Large'>
+        <Heading level='2'>
+          Bug Tracker and Project Manager
+        </Heading>
+      </Main>
+    </Grommet>
   );
 }
 
