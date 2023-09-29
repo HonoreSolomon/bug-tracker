@@ -8,25 +8,34 @@ import {
   Box,
   Heading,
 } from 'grommet';
+import { useHistory } from 'react-router-dom';
+import { createBug } from '../services/api';
 import { AddCircle } from 'grommet-icons';
 
-function BugForm({ onSubmit }) {
+function BugForm() {
+  const history = useHistory();
   const [bugData, setBugData] = useState({
     title: '',
     description: '',
-    status: 'Open',
+    status: '',
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(bugData);
+  const handleSubmit = async () => {
+    try {
+      const response = await createBug(bugData);
+      console.log('Bug Created:', response.data);
+      //Recdirect to bugs list after creating\
+      history.push('/bugs');
+    } catch (error) {
+      console.error('Error creating bug', error);
+    }
   };
 
   return (
     <Box pad='medium'>
       <Heading level='2'>Create Bug</Heading>
       <Form onSubmit={handleSubmit}>
-        <FormField label='Title'>
+        <FormField name='title' label='Title'>
           <TextInput
             name='title'
             value={bugData.title}
@@ -36,9 +45,10 @@ function BugForm({ onSubmit }) {
                 title: e.target.value,
               })
             }
+            required
           />
         </FormField>
-        <FormField label='Description'>
+        <FormField name='description' label='Description'>
           <TextInput
             name='description'
             value={bugData.description}
@@ -48,12 +58,18 @@ function BugForm({ onSubmit }) {
                 description: e.target.value,
               })
             }
+            required
           />
         </FormField>
-        <FormField label='Status'>
+        <FormField name='status' label='Status'>
           <Select
             name='status'
-            options={['Open', 'In Progress', 'Closed']}
+            options={[
+              'New',
+              'In Progress',
+              'Resolved',
+              'Closed',
+            ]}
             value={bugData.status}
             onChange={({ option }) =>
               setBugData({
@@ -61,6 +77,7 @@ function BugForm({ onSubmit }) {
                 status: option,
               })
             }
+            required
           />
         </FormField>
         <Box margin={{ top: 'medium' }}>
