@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableCell,
-  TableBody,
-  Button,
-} from 'grommet';
+import { Box, DataTable, Heading, Button } from 'grommet';
 import { Link } from 'react-router-dom';
 import { fetchBugs } from '../services/api';
 import { Add } from 'grommet-icons';
-import { grommet } from 'grommet/themes';
-import { Grommet, Main, Heading } from 'grommet';
-import './BugList.css';
 
 function BugList() {
   const [bugs, setBugs] = useState([]);
@@ -32,44 +22,48 @@ function BugList() {
   }, []);
 
   return (
-    <Grommet theme={grommet}>
-      <Main pad='large'>
-        <Heading level='2'>Bug List</Heading>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableCell>Bug ID</TableCell>
-              <TableCell>Title</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {bugs.map((bug) => (
-              <TableRow key={bug.id}>
-                <TableCell>{bug.id}</TableCell>
-                <TableCell>{bug.title}</TableCell>
-                <TableCell>{bug.description}</TableCell>
-                <TableCell>{bug.status}</TableCell>
-                <TableCell>
-                  <Link to={`/bugs/${bug.id}`}>View</Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <Link to='/bugs/new'>
-          <Button
-            label='create New Bug'
-            primary
-            icon={<Add />}
-            size='small'
-            margin={{ top: 'medium' }}
-          />
-        </Link>
-      </Main>
-    </Grommet>
+    <Box>
+      <Heading level='2'>Bug List</Heading>
+      <DataTable
+        columns={[
+          {
+            property: 'id',
+            header: 'ID',
+          },
+          {
+            property: 'title',
+            header: 'Title',
+          },
+          {
+            property: 'description',
+            header: 'Description',
+          },
+          {
+            property: 'status',
+            header: 'Status',
+          },
+          {
+            property: 'actions',
+            header: 'Actions',
+            render: (bug) => (
+              <Link to={`/bugs/${bug.id}`}>
+                <Button label='View' />
+              </Link>
+            ),
+          },
+        ]}
+        data={bugs}
+      />
+      <Link to='/bugs/new'>
+        <Button
+          label='Create New Bug'
+          primary
+          icon={<Add />}
+          size='small'
+          margin={{ top: 'medium' }}
+        />
+      </Link>
+    </Box>
   );
 }
 
