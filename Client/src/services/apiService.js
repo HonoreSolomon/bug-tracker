@@ -8,6 +8,22 @@ const api = axios.create({
   baseUrl: BASE_URL,
 });
 
+export const deleteBug = async (bugId) => {
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/bugs/${bugId}`
+    );
+    if (response.status === 204) {
+      return { success: true };
+    } else {
+      return { success: false, error: 'Delete failed' };
+    }
+  } catch (error) {
+    console.error('Error deleting bug:', error);
+    return { success: false, error: 'Network error' };
+  }
+};
+
 export const updateBug = async (bugId, bugData) => {
   try {
     const response = await axios.put(
