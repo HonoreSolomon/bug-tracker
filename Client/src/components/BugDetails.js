@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Heading, Paragraph, Button } from 'grommet';
 import { useParams, Link } from 'react-router-dom';
-import { fetchBugByID } from '../services/api';
+import { fetchBugDetails } from '../services/api';
 
 function BugDetail() {
   const { bugId } = useParams();
@@ -11,7 +11,7 @@ function BugDetail() {
     //fetch bug details when the component mounts
     const fetchData = async () => {
       try {
-        const response = await fetchBugByID(bugId);
+        const response = await fetchBugDetails(bugId);
         setBug(response.data);
       } catch (error) {
         console.error('Error fetching bug details:', error);

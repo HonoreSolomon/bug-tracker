@@ -2,10 +2,32 @@ import axios from 'axios';
 import { Storage } from '/firebase';
 
 const BASE_URL = 'http://localhost:5000'; // replace this is a placeholder
+const API_URL = 'http://example.com/api/bugs'; //placeholder will need to complet API endpoint url
 
 const api = axios.create({
   baseUrl: BASE_URL,
 });
+
+export async function createBug(bugData) {
+  try {
+    const response = await axios.post(API_URL, bugData);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function fetchBugDetails(bugId) {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/bugs/${bugId}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const fetchUserProjects = async () => {
   try {
