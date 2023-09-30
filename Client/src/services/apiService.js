@@ -8,7 +8,19 @@ const api = axios.create({
   baseUrl: BASE_URL,
 });
 
-export async function createBug(bugData) {
+export const updateBug = async (bugId, bugData) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/bugs/${bugId}`,
+      bugData
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createBug = async (bugData) => {
   try {
     const response = await axios.post(API_URL, bugData);
 
@@ -16,9 +28,9 @@ export async function createBug(bugData) {
   } catch (error) {
     throw error;
   }
-}
+};
 
-export async function fetchBugDetails(bugId) {
+export const fetchBugDetails = async (bugId) => {
   try {
     const response = await axios.get(
       `${BASE_URL}/bugs/${bugId}`
@@ -27,7 +39,7 @@ export async function fetchBugDetails(bugId) {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const fetchUserProjects = async () => {
   try {
