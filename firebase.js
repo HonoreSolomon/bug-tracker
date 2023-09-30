@@ -14,6 +14,26 @@ const firebaseConfig = {
   appId: 'YOUR_APP_ID',
 };
 
+const fetchUserData = async (userId) => {
+  try {
+    const userDoc = await firebase
+      .firestore()
+      .collection('users')
+      .doc(userId)
+      .get();
+
+    if (userDoc.exists) {
+      return userDoc.data();
+    } else {
+      throw new Error('User not found');
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export { fetchUserData };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 

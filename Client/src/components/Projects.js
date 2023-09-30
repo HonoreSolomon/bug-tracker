@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Heading, Text, Button } from 'grommet';
 import { Link } from 'react-router-dom';
-import { fetchUserProjects } from '../services/projectService';
+import { fetchUserProjects } from '../services/apiService';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
