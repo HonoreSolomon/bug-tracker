@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Box, DataTable, Heading, Button } from 'grommet';
 import { Link } from 'react-router-dom';
-import { fetchBugs } from '../services/api';
+import { fetchUserBugs } from '../services/apiService';
 import { Add } from 'grommet-icons';
 
 function BugList() {
-  const [bugs, setBugs] = useState([]);
+  const [bugs, setUserBugs] = useState([]);
 
   useEffect(() => {
     //fetch bugs when the component mounts
     const fetchData = async () => {
       try {
-        const response = await fetchBugs();
-        setBugs(response.data); //API returns array of bugs
+        const userBugs = await fetchUserBugs();
+        setUserBugs(userBugs); //API returns array of bugs
       } catch (error) {
         console.error('Error fetching bugs', error);
       }

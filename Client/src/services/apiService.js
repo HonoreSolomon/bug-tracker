@@ -3,12 +3,27 @@ import { Storage } from '/firebase';
 
 const BASE_URL = 'http://localhost:5000'; // replace this is a placeholder
 
+const api = axios.create({
+  baseUrl: BASE_URL,
+});
+
 export const fetchUserProjects = async () => {
   try {
     const response = await axios.get(
       `${BASE_URL}/api/user/projects`
     );
     return response.data.projects;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchUserBugs = async (userId) => {
+  try {
+    const response = await api.get(
+      `/bugs?userID=${userId}`
+    );
+    return response.data;
   } catch (error) {
     throw error;
   }

@@ -3,14 +3,10 @@ import { Box, Heading, Text, Button } from 'grommet';
 import { Link } from 'react-router-dom';
 import Projects from './Projects';
 import BugList from './BugList';
-import {
-  fetchUserData,
-  fetchUserBugs,
-} from '../services/apiService';
+import { fetchUserData } from '../services/apiService';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
-  const [userBugs, setUserBugs] = useState([]);
 
   useEffect(() => {
     // Fetch user data from your backend API
@@ -20,17 +16,6 @@ const Dashboard = () => {
       })
       .catch((error) => {
         console.error('Error fetching user data:', error);
-      });
-
-    // Fetch user projects from your backend API
-
-    // Fetch user bugs from your backend API
-    fetchUserBugs()
-      .then((data) => {
-        setUserBugs(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching user bugs:', error);
       });
   }, []);
 
