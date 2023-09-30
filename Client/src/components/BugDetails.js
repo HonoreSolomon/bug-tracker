@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, Paragraph, Button } from 'grommet';
-import { useParams, Link } from 'react-router-dom';
-import { fetchBugDetails } from '../services/api';
+import { Box, Heading, Text, Button } from 'grommet';
+import {
+  useParams,
+  useHistory,
+  Link,
+} from 'react-router-dom';
+import {
+  fetchBugDetails,
+  deleteBug,
+} from '../services/api';
 
 function BugDetail() {
-  const { bugId } = useParams();
+  const history = useHistory();
+  const { id } = useParams();
   const [bug, setBug] = useState(null);
 
   useEffect(() => {
     //fetch bug details when the component mounts
     const fetchData = async () => {
       try {
-        const bugDetails = await fetchBugDetails(bugId);
+        const bugDetails = await fetchBugDetails(id);
         setBug(bugDetails.data);
       } catch (error) {
         console.error('Error fetching bug details:', error);
@@ -19,29 +27,43 @@ function BugDetail() {
     };
 
     fetchData();
-  }, [bugId]);
+  }, [id]);
+
+  const handleDeleteBug = async () => {
+    try {
+      await deleteBug(id);
+
+      history.push('/bugs');
+    } catch (error) {
+      console.error('Error deleting bug', error);
+    }
+  };
 
   return (
-    <Box pad='large'>
+    <Box pad='medium'>
       <Heading level='2'>Bug Details</Heading>
       {bug ? (
         <Box pad='medium'>
           <Heading level='3'>{bug.title}</Heading>
-          <Paragraph>Status: {bug.status}</Paragraph>
-          <Paragraph>
-            Description: {bug.description}
-          </Paragraph>
+          <Text>Status: {bug.status}</Text>
+          <Text>Description: {bug.description}</Text>
         </Box>
       ) : (
-        <Paragraph>Loading bug details... </Paragraph>
+        <Text>Loading bug details... </Text>
       )}
-      <Link to={`/bugs/${bugId}/edit`}>
+      <Link to={`/bugs/${id}/edit`}>
         <Button
           label='Edit'
           primary
           margin={{ top: 'medium' }}
         />
       </Link>
+      <Button
+        label='Delete'
+        color='status-critical'
+        margin={{ top: 'medium' }}
+        onClick={handleDeleteBug}
+      />
       <Box pad='medium'>
         <Link to='/bugs'>
           <Button label='Go Back' />
